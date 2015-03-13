@@ -60,7 +60,44 @@ describe("random.js", function () {
       assert.equal(opts.min, min);
       assert.equal(opts.max, max);
     });
+
+    it("should return a seeded random number if passed the seed parameter", function() {
+      var max = 100;
+      var seed = 1234;
+
+      assert.ok(faker.random.number({ max: max, seed: seed }) <= max);
+      assert.strictEqual(faker.random.number({ max: max, seed: seed }), faker.random.number({ max: max, seed: seed }));
+      assert.notStrictEqual(faker.random.number({ max: max }), faker.random.number({ max: max }));
+    });
   });
+
+    describe('array_element()', function() {
+        it("should return a default array if non passed in", function() {
+            var random = faker.random.array_element();
+            assert.ok(random);
+            assert.ok(_.contains(["a", "b", "c"], random));
+        });
+
+        it("should return a random array element", function() {
+            var array = [1, 2, 3, 4, 5];
+
+            var random = faker.random.array_element(array);
+
+            assert.ok(random);
+            assert.ok(_.contains(array, random));
+        });
+
+        it("should return a seeded array element", function() {
+            var array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            var seed = 1234;
+
+            var random = faker.random.array_element(array, {seed: seed});
+
+            assert.ok(random);
+            assert.strictEqual(random, faker.random.array_element(array, {seed: seed}));
+            assert.ok(_.contains(array, random));
+        });
+    });
 
   describe('UUID', function() {
     it('should generate a valid UUID', function() {

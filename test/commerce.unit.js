@@ -67,6 +67,31 @@ describe("commerce.js", function() {
             faker.commerce.productMaterial.restore();
             faker.commerce.product.restore();
         });
+
+        it("should return a seed product name when passed a seed", function() {
+            sinon.spy(faker.random, 'array_element');
+            sinon.spy(faker.commerce, 'productAdjective');
+            sinon.spy(faker.commerce, 'productMaterial');
+            sinon.spy(faker.commerce, 'product');
+
+            var seed = 1234;
+            var name = faker.commerce.productName({seed: seed });
+
+            assert.ok(name.split(' ').length >= 3);
+
+            assert.ok(faker.random.array_element.calledThrice);
+            assert.ok(faker.commerce.productAdjective.calledOnce);
+            assert.ok(faker.commerce.productMaterial.calledOnce);
+            assert.ok(faker.commerce.product.calledOnce);
+
+            faker.random.array_element.restore();
+            faker.commerce.productAdjective.restore();
+            faker.commerce.productMaterial.restore();
+            faker.commerce.product.restore();
+
+            // Test the seed has worked after checking the function call amounts, otherwise it will skew the numbers
+            assert.strictEqual(name, faker.commerce.productName({seed: seed }));
+        })
     });
 
     describe("price(min, max, dec, symbol", function() {
