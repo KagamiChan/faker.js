@@ -29,7 +29,5 @@
     "vinyl-transform": "0.0.1"
   },
   "main": "index.js",
-  "dependencies": {
-    "seedrandom": "^2.3.11"
-  }
+  "dependencies": {}
 }
